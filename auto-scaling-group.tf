@@ -25,13 +25,15 @@ resource "aws_launch_configuration" "this" {
 }
 
 resource "aws_autoscaling_group" "this" {
-  name                 = "${terraform.workspace}"
-  max_size             = "${var.asg_max_size[local.env]}"
-  min_size             = "${var.asg_min_size[local.env]}"
-  launch_configuration = "${aws_launch_configuration.this.name}"
-  vpc_zone_identifier  = ["${aws_subnet.this.id}"]
-  load_balancers       = ["${aws_elb.this.name}"]
-  health_check_type    = "ELB"
+  name                      = "${terraform.workspace}"
+  max_size                  = "${var.asg_max_size[local.env]}"
+  min_size                  = "${var.asg_min_size[local.env]}"
+  launch_configuration      = "${aws_launch_configuration.this.name}"
+  vpc_zone_identifier       = ["${aws_subnet.this.id}"]
+  load_balancers            = ["${aws_elb.this.name}"]
+  health_check_type         = "ELB"
+  wait_for_capacity_timeout = "3m"
+  min_elb_capacity          = "${var.asg_min_size[local.env]}"
 
   depends_on = ["aws_subnet.this"]
 

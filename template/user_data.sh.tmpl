@@ -1,5 +1,6 @@
 #!/bin/bash
-
+sudo apt-get update
+sudo apt-get install -y awscli
 aws s3 cp s3://btai-artifacts/env-region-api.tar.gz /tmp
 tar -xzf /tmp/env-region-api.tar.gz
 export ENVIRONMENT="${environment}"; export REGION="${region}"; ./env-region-api
